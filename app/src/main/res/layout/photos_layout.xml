@@ -10,6 +10,12 @@
         style="@style/TextContent.Title"
         android:text="@string/photos"
         android:layout_marginBottom="8dp"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/galleryRv"
+        android:layout_below="@id/titles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"/>
     <LinearLayout
         android:id="@+id/img_wrapper"
         android:layout_width="wrap_content"
@@ -18,7 +24,7 @@
         android:background="#96000000"
         android:padding="8dp"
         android:layout_marginRight="8dp"
-        android:layout_below="@id/titles"
+        android:layout_marginTop="24dp"
         android:layout_alignParentRight="true">
         <TextView
             android:id="@+id/gallery_image_count"
@@ -29,11 +35,4 @@
             android:textSize="12sp"
             android:textColor="@android:color/white"/>
     </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/galleryRv"
-        android:layout_below="@id/titles"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"/>
 </RelativeLayout>

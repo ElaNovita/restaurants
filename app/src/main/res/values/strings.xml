@@ -25,5 +25,7 @@
     <string name="reset_rating">Reset Rating</string>
     <string name="rate_this_place">Rate This Place</string>
     <string name="see_all">See All</string>
+    <string name="start_writing_your_review">Start Writing Your Review</string>
+    <string name="submit_review">Submit Review</string>
 
 </resources>
