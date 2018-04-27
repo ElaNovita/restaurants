@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="8dp"
+    android:paddingBottom="16dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:id="@+id/titles"
+        style="@style/TextContent.Title"
+        android:text="@string/photos"
+        android:layout_marginBottom="8dp"/>
+    <LinearLayout
+        android:id="@+id/img_wrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#96000000"
+        android:padding="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_below="@id/titles"
+        android:layout_alignParentRight="true">
+        <TextView
+            android:id="@+id/gallery_image_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/see_all"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/galleryRv"
+        android:layout_below="@id/titles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"/>
+</RelativeLayout>

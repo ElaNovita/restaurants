@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="180dp"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:elevation="2dp"
+    android:layout_marginRight="2dp"
+    android:paddingBottom="8dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:id="@+id/restaurant_image"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg"/>
+    <TextView
+        android:id="@+id/restaurant_title"
+        style="@style/TextContent.Title"
+        tools:text="Pizza Hut"
+        android:ellipsize="end"
+        android:maxLines="1"/>
+    <TextView
+        android:id="@+id/restaurant_address"
+        style="@style/TextContent.Desc"
+        tools:text="Jl. Sriwijaya Mataram"/>
+</LinearLayout>

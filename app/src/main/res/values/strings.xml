@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Restaurant Finder</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="search">Search Restaurant or Place . . .</string>
+    <string name="app_title">Restaurant Finder</string>
+    <string name="subtitle">Search restaurant near you and everywhere</string>
+    <string name="restaurant_near_you">Restaurant Near You</string>
+    <string name="popular_this_week">Popular this Week</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="register_here">Don\'t have an account? Register here</string>
+    <string name="menu">Menu</string>
+    <string name="facebook_app_id">608285666183637</string>
+    <string name="fb_login_protocol_scheme">fb608285666183637</string>
+    <string name="photos">Photos</string>
+    <string name="details">Details</string>
+    <string name="dummy_address">Jl. Boulevard Raya Blok TT2 No. 23-24, Kelapa Gading, Jakarta</string>
+    <string name="call">CALL</string>
+    <string name="address">ADDRESS</string>
+    <string name="reset_rating">Reset Rating</string>
+    <string name="rate_this_place">Rate This Place</string>
+    <string name="see_all">See All</string>
+
+</resources>

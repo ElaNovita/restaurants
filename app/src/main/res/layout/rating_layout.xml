@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        style="@style/TextContent.RestaurantTitle"
+        android:text="Rate this place"/>
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:theme="@style/RatingBar"
+        android:numStars="5"
+        style="@style/Widget.AppCompat.RatingBar.Indicator"
+        android:isIndicator="false"/>
+</LinearLayout>
