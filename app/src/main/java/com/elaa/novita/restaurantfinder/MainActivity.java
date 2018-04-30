@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.elaa.novita.restaurantfinder.adapter.HomeRestaurantAdapter;
 import com.elaa.novita.restaurantfinder.helper.MyInterface;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity
     HomeRestaurantAdapter adapter;
     final String TAG = "mainactivity";
     MySharedPreferences sf ;
+    TextView search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +46,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         sf = new MySharedPreferences(this);
 
+        search = findViewById(R.id.search_txt);
         nearYouRv = findViewById(R.id.nearYouRv);
         adapter = new HomeRestaurantAdapter(this);
 
@@ -65,6 +66,14 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         reqJson();
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -102,6 +111,10 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
             sf.deleteToken();
+        } else if (id == R.id.bookmark) {
+            Intent intent = new Intent(getApplicationContext(), BookmarkActivity.class);
+
+            startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -115,6 +128,7 @@ public class MainActivity extends AppCompatActivity
         call.enqueue(new Callback<List<RestaurantModel>>() {
             @Override
             public void onResponse(Call<List<RestaurantModel>> call, Response<List<RestaurantModel>> response) {
+                Log.d(TAG, "onResponse: " + response.code());
                 final List<RestaurantModel> models = response.body();
                 adapter.setData(models);
                 final RestaurantModel model = new RestaurantModel();
@@ -139,7 +153,8 @@ public class MainActivity extends AppCompatActivity
                         model.setLocationLng(i.getLocationLng());
                         model.setRated(i.getRated());
                         model.setToRated(i.isRated());
-                        Log.d(TAG, "onItemClick: " + i.isRated());
+                        model.setBookmarked(i.isBookmarked());
+                        Log.d(TAG, "onItemClick: " + i.isBookmarked());
 
                         Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                         intent.putExtra("restaurant", model);
@@ -150,7 +165,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<List<RestaurantModel>> call, Throwable t) {
-
+                Log.e(TAG, "onFailure: ", t);
             }
         });
     }

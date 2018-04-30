@@ -14,9 +14,10 @@ public class RestaurantModel implements Serializable{
     private List<CategoryModel> category;
     private List<Menu> menus;
     private List<Menu> photos;
-    private String title, description, img, address, city, phone;
+    private String title, description, address, city, phone;
     private Float rate;
     private int rated;
+    private Img img;
 
     @SerializedName("is_rated")
     boolean isRated;
@@ -32,6 +33,17 @@ public class RestaurantModel implements Serializable{
 
     @SerializedName("location_lng")
     private String locationLng;
+
+    @SerializedName("is_bookmarked")
+    boolean isBookmarked;
+
+    public Img getImg() {
+        return img;
+    }
+
+    public void setImg(Img img) {
+        this.img = img;
+    }
 
     public int getId() {
         return id;
@@ -65,13 +77,6 @@ public class RestaurantModel implements Serializable{
         this.description = description;
     }
 
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
 
     public String getAddress() {
         return address;
@@ -176,5 +181,13 @@ public class RestaurantModel implements Serializable{
 
     public void setToRated(boolean rated) {
         isRated = rated;
+    }
+
+    public boolean isBookmarked() {
+        return isBookmarked;
+    }
+
+    public void setBookmarked(boolean bookmarked) {
+        isBookmarked = bookmarked;
     }
 }

@@ -4,6 +4,7 @@ import com.elaa.novita.restaurantfinder.model.Login;
 import com.elaa.novita.restaurantfinder.model.Rating;
 import com.elaa.novita.restaurantfinder.model.RestaurantModel;
 import com.elaa.novita.restaurantfinder.model.Review;
+import com.elaa.novita.restaurantfinder.model.Status;
 
 import java.util.List;
 
@@ -34,6 +35,9 @@ public interface MyInterface {
     @POST("auth/")
     Call<Login> login(@Field("username") String username, @Field("password") String password);
 
+    @GET("restaurants/{id}/reviews/")
+    Call<List<Review>> getReviews(@Path("id") int id);
+
     @FormUrlEncoded
     @POST("auth/register/")
     Call<Login> register(@Field("email") String email,
@@ -49,5 +53,15 @@ public interface MyInterface {
     Call<Review> postReview(@Path("id") int id,
                             @Part("text") RequestBody text,
                             @Part MultipartBody.Part img);
+
+    @GET("restaurants/")
+    Call<List<RestaurantModel>> search(@Query("title__icontains") String query);
+
+    @FormUrlEncoded
+    @POST("restaurants/bookmarks/")
+    Call<Status> bookmark(@Field("id") int id);
+
+    @GET("restaurants/bookmarks/")
+    Call<List<RestaurantModel>> getBookmarks();
 
 }

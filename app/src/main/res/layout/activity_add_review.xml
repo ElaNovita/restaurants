@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
+<RelativeLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -15,18 +15,22 @@
     <TextView
         android:id="@+id/city"
         style="@style/TextContent.Desc"
-        tools:text="Senayan, jakarta"/>
+        tools:text="Senayan, jakarta"
+        android:layout_below="@id/restaurant_title"/>
     <TextView
+        android:id="@+id/review_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/start_writing_your_review"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/city"/>
     <EditText
         android:id="@+id/review_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lines="3"
+        android:layout_below="@id/review_label"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"/>
     <ImageView
@@ -36,9 +40,9 @@
         android:src="@drawable/camera"
         android:background="@drawable/rate_this_place_bg"
         android:padding="8dp"
+        android:layout_below="@id/review_txt"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:visibility="gone"/>
+        android:layout_marginTop="8dp"/>
     <ImageView
         android:id="@+id/photo_result"
         android:layout_width="50dp"
@@ -46,6 +50,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
         tools:src="@drawable/bg"
+        android:layout_below="@id/review_txt"
         android:scaleType="centerCrop"/>
     <Button
         android:id="@+id/submit"
@@ -57,5 +62,12 @@
         android:minHeight="40dip"
         android:text="@string/submit_review"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"/>
-</LinearLayout>
+        android:layout_marginRight="16dp"
+        android:layout_below="@id/photo_result"/>
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>

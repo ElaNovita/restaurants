@@ -16,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RetrofitBuilder {
-    public static final String BaseUrl = "http://d1313a7d.ngrok.io/api/";
+    public static final String BaseUrl = "http://f74a7aa9.ngrok.io/api/";
 
     private Context _context;
 

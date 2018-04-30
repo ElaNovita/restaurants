@@ -5,8 +5,9 @@ package com.elaa.novita.restaurantfinder.model;
  */
 
 public class Review {
-    private int id, restaurant, user;
+    private int id, restaurant;
     private String img, text, created, updated;
+    private Login user;
 
     public int getId() {
         return id;
@@ -24,11 +25,11 @@ public class Review {
         this.restaurant = restaurant;
     }
 
-    public int getUser() {
+    public Login getUser() {
         return user;
     }
 
-    public void setUser(int user) {
+    public void setUser(Login user) {
         this.user = user;
     }
 

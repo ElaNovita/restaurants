@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -36,6 +37,7 @@ import com.elaa.novita.restaurantfinder.model.Image;
 import com.elaa.novita.restaurantfinder.model.Menu;
 import com.elaa.novita.restaurantfinder.model.Rating;
 import com.elaa.novita.restaurantfinder.model.RestaurantModel;
+import com.elaa.novita.restaurantfinder.model.Status;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,7 +52,8 @@ public class DetailActivity extends AppCompatActivity {
     final String TAG = "detail";
     ImageView backdrop;
     Toolbar toolbar;
-    int id;
+    int id, menuState;
+    android.view.Menu bookmarkMenu;
     RestaurantModel model;
     TextView titles, city, rating, openHour;
     TextView category, phone, openMap, address;
@@ -64,10 +67,10 @@ public class DetailActivity extends AppCompatActivity {
     GalleryAdapter galleryAdapter;
     LinearLayout photoWrapper;
     RelativeLayout cardViewMenu;
-    TextView rate;
+    TextView rate, review;
     MySharedPreferences sf;
     List<String> categoryList = new ArrayList<>();
-    boolean isRated;
+    boolean isRated, isBookmarked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,9 +98,10 @@ public class DetailActivity extends AppCompatActivity {
         address = findViewById(R.id.address);
         openMap = findViewById(R.id.open_map);
         rate = findViewById(R.id.rate);
+        review = findViewById(R.id.review);
 
         model = (RestaurantModel) getIntent().getSerializableExtra("restaurant");
-        Glide.with(this).load(model.getImg()).into(backdrop);
+        Glide.with(this).load(model.getImg().getFull()).into(backdrop);
 
         recyclerViewMenu.setLayoutManager(new GridLayoutManager(this, 5));
         menuAdapter = new MenuAdapter(this);
@@ -168,6 +172,13 @@ public class DetailActivity extends AppCompatActivity {
                     parsedLng = 0.00;
                 }
                 openMaps(parsedLat, parsedLng);
+            }
+        });
+
+        review.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addReview();
             }
         });
 
@@ -309,14 +320,77 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
+    private void addReview() {
+        Intent intent = new Intent(DetailActivity.this, ReviewListActivity.class);
+        intent.putExtra("restaurant", model);
+        startActivity(intent);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
-                return true;
+                break;
+            case R.id.bookmark:
+                setBookmark();
+                Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
+                break;
             default:
                 return super.onOptionsItemSelected(item);
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.bookmarks, menu);
+        this.bookmarkMenu = menu;
+        cekStatus();
+
+        return true;
+    }
+
+    private void reqBookmark() {
+        MyInterface service = new RetrofitBuilder(this).getRetrofit().create(MyInterface.class);
+        Call<Status> call = service.bookmark(id);
+        call.enqueue(new Callback<Status>() {
+            @Override
+            public void onResponse(Call<Status> call, Response<Status> response) {
+                Log.d(TAG, "onResponse: " + response.code());
+
+            }
+
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+                Log.d(TAG, "onResponse: " + t.getMessage());
+            }
+        });
+    }
+
+    private void cekStatus() {
+        Log.d(TAG, "cekStatus: " + isBookmarked);
+        if (isBookmarked) {
+            bookmarkMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.ic_bookmark_32dp));
+            menuState = 0;
+        } else {
+            bookmarkMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.ic_bookmark_border_32dp));
+            menuState = 1;
         }
     }
+
+    private void setBookmark() {
+        reqBookmark();
+        if (menuState == 0) {
+            bookmarkMenu.findItem(R.id.bookmark).setIcon(getResources().getDrawable(R.drawable.ic_bookmark_border_32dp));
+            menuState = 1;
+        } else {
+            bookmarkMenu.findItem(R.id.bookmark).setIcon(getResources().getDrawable(R.drawable.ic_bookmark_32dp));
+            menuState = 0;
+        }
+    }
+
 }

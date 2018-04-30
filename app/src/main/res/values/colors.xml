@@ -11,4 +11,5 @@
     <color name="grey">#dadada</color>
     <color name="greyDarken">#2D2D2D</color>
     <color name="greyLighten">#CDCDCD</color>
+    <color name="reviewBg">#EFEFEF</color>
 </resources>

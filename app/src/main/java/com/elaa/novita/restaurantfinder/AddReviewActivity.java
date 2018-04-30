@@ -10,16 +10,21 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.elaa.novita.restaurantfinder.helper.MyInterface;
 import com.elaa.novita.restaurantfinder.helper.RealPathUtil;
 import com.elaa.novita.restaurantfinder.helper.RetrofitBuilder;
+import com.elaa.novita.restaurantfinder.model.RestaurantModel;
 import com.elaa.novita.restaurantfinder.model.Review;
 
 import java.io.File;
@@ -36,13 +41,15 @@ public class AddReviewActivity extends AppCompatActivity {
     EditText review;
     ImageView addPhoto, preview;
     Button submit;
-    int id = 1;
+    int id;
     ProgressDialog progressDialog;
+    ProgressBar progressBar;
     RequestBody reviewText;
     MultipartBody.Part requestFileBody;
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final String TAG = "addreview";
     boolean islogin = true;
+    RestaurantModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +62,17 @@ public class AddReviewActivity extends AppCompatActivity {
         addPhoto = findViewById(R.id.add_photo);
         submit = findViewById(R.id.submit);
         preview = findViewById(R.id.photo_result);
+        progressBar = findViewById(R.id.progress_bar);
+        progressDialog = new ProgressDialog(this);
+
+        model = (RestaurantModel) getIntent().getSerializableExtra("restaurant");
+
+        getSupportActionBar().setTitle(model.getTitle());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        restaurantTitle.setText(model.getTitle());
+        city.setText(model.getCity());
+        id = model.getId();
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +83,7 @@ public class AddReviewActivity extends AppCompatActivity {
                 } else {
                     reviewText = RequestBody.create(MediaType.parse("multipart/form-data"), _text);
                     addReview();
+                    progressBar.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -79,12 +98,19 @@ public class AddReviewActivity extends AppCompatActivity {
     }
 
     private void addReview() {
+        progressBar.setVisibility(View.GONE);
         MyInterface service = new RetrofitBuilder(this).getRetrofit().create(MyInterface.class);
         Call<Review> call = service.postReview(id, reviewText, requestFileBody);
         call.enqueue(new Callback<Review>() {
             @Override
             public void onResponse(Call<Review> call, Response<Review> response) {
                 Log.d(TAG, "onResponse: " + response.code());
+                Log.d(TAG, "onResponse: " + response.message());
+                Toast.makeText(AddReviewActivity.this, "Review Added", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(AddReviewActivity.this, DetailActivity.class);
+                intent.putExtra("restaurant", model);
+                startActivity(intent);
+                finish();
             }
 
             @Override
@@ -134,9 +160,13 @@ public class AddReviewActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data ) {
         super.onActivityResult(requestCode, resultCode, data);
+//        progressDialog.dismiss();
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             String realPath = RealPathUtil.getPath(this, data.getData());
             File file = new File(realPath);
+
+            preview.setImageURI(data.getData());
+            addPhoto.setVisibility(View.GONE);
 
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
             requestFileBody = MultipartBody.Part.createFormData("img", file.getName(), requestFile);
@@ -144,4 +174,17 @@ public class AddReviewActivity extends AppCompatActivity {
             Log.d(TAG, "onActivityResult: " + file.getName());
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
 }

@@ -3,6 +3,8 @@
     package="com.elaa.novita.restaurantfinder">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -35,7 +37,13 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".AddReviewActivity"></activity>
+        <activity android:name=".AddReviewActivity" />
+        <activity android:name=".ReviewListActivity" />
+        <activity
+            android:name=".FullSreenActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".BookmarkActivity"></activity>
     </application>
 
 </manifest>
